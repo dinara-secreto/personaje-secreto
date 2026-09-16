@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎭 Personaje Secreto</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(135deg,#141e30,#243b55);
+    color:white; padding:20px;
+  }
+  .card{
+    width:min(520px,100%); text-align:center; background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.2); border-radius:24px; padding:35px 25px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35); backdrop-filter:blur(10px);
+  }
+  h1{font-size:32px;margin:0 0 10px}
+  .sub{opacity:.85;margin-bottom:28px}
+  .name{font-size:25px;font-weight:bold;margin:15px 0}
+  button{
+    border:0;border-radius:14px;padding:15px 24px;font-size:17px;font-weight:bold;
+    cursor:pointer;background:white;color:#182536;margin-top:18px;
+  }
+  button:hover{transform:scale(1.03)}
+  .secret{display:none;margin-top:28px;padding:25px;border-radius:20px;background:rgba(0,0,0,.22)}
+  .emoji{font-size:72px}
+  .character{font-size:34px;font-weight:800;margin:12px 0}
+  .warning{font-size:14px;opacity:.8;margin-top:18px}
+  .error{display:none;color:#ffd6d6;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="card">
+  <div style="font-size:52px">🎭</div>
+  <h1>Descubre tu personaje secreto</h1>
+  <div class="sub">Tu personaje ha sido asignado especialmente para ti.</div>
+  <div id="welcome"></div>
+  <button id="reveal" onclick="revealCharacter()">🎁 REVELAR MI PERSONAJE</button>
+  <div class="secret" id="secret">
+    <div class="emoji" id="emoji"></div>
+    <div>Tu personaje secreto es:</div>
+    <div class="character" id="character"></div>
+    <div>🤫 ¡No se lo reveles a nadie!</div>
+  </div>
+  <div class="error" id="error">No se encontró un personaje válido. Usa el enlace que te fue enviado.</div>
+  <div class="warning">⚠️ Abre únicamente tu enlace personal.</div>
+</div>
+
+<script>
+const personajes = {
+  "1":  {nombre:"Alcira",    personaje:"Iron Man",       emoji:"🦾"},
+  "2":  {nombre:"Diana",     personaje:"Spider-Woman",   emoji:"🕷️"},
+  "3":  {nombre:"Erika",     personaje:"Doctor Strange", emoji:"🔮"},
+  "4":  {nombre:"Maryory",   personaje:"Viuda Negra",    emoji:"🕷️"},
+  "5":  {nombre:"Mercedes",  personaje:"Alegría",        emoji:"😊"},
+  "6":  {nombre:"Omaira",    personaje:"Furia",          emoji:"😡"},
+  "7":  {nombre:"Nidia",     personaje:"Desagrado",      emoji:"😒"},
+  "8":  {nombre:"Carito",    personaje:"Ansiedad",       emoji:"😰"},
+  "9":  {nombre:"Anderson",  personaje:"Envidia",        emoji:"💚"},
+  "10": {nombre:"Elizabeth", personaje:"Capitán América",emoji:"🛡️"}
+};
+
+const id = new URLSearchParams(window.location.search).get("p");
+const persona = personajes[id];
+
+if (persona) {
+  document.getElementById("welcome").innerHTML =
+    '<div>Hola,</div><div class="name">'+persona.nombre+' 👋</div>';
+} else {
+  document.getElementById("welcome").innerHTML =
+    '<div class="error" style="display:block">Enlace no válido.</div>';
+  document.getElementById("reveal").style.display="none";
+}
+
+function revealCharacter(){
+  if(!persona) return;
+  document.getElementById("emoji").textContent = persona.emoji;
+  document.getElementById("character").textContent = persona.personaje;
+  document.getElementById("secret").style.display="block";
+  document.getElementById("reveal").style.display="none";
+}
+</script>
+</body>
+</html>
